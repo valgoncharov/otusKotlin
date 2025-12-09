@@ -1,8 +1,9 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "2.0.21"
+    application
 }
 
-group = "org.example"
+group = "com.otus.kotlinqa"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -10,12 +11,40 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation(kotlin("stdlib"))
 }
 
-tasks.test {
-    useJUnitPlatform()
+application {
+    mainClass.set("MainKt")
+    applicationDefaultJvmArgs = listOf(
+        "-Xms256m",
+        "-Xmx1g",
+        "-XX:MaxMetaspaceSize=256m",
+        "-XX:+UseG1GC",
+        "-XX:+HeapDumpOnOutOfMemoryError",
+        "-Dfile.encoding=UTF-8"
+    )
 }
-kotlin {
-    jvmToolchain(21)
+
+tasks.withType<JavaExec> {
+    jvmArgs = listOf(
+        "-Xms256m",      // Initial heap size
+        "-Xmx1g",      // Maximum heap size
+        "-XX:MaxMetaspaceSize=256m",
+        "-XX:+UseG1GC", // Use G1 garbage collector
+        "-XX:+HeapDumpOnOutOfMemoryError",
+        "-XX:HeapDumpPath=./heap-dump.hprof"
+    )
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
