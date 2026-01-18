@@ -43,6 +43,18 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
+tasks.named<Jar>("jar") {
+    archiveBaseName.set("time-app") // или оставьте как есть — не обязательно
+    manifest {
+        attributes["Main-Class"] = "MainKt" // ← важно!
+    }
+    // Включаем зависимости (на всякий случай, хотя у вас их почти нет)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    configurations.named("runtimeClasspath").get().forEach { dep ->
+        from(zipTree(dep))
+    }
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))

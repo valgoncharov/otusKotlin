@@ -1,2 +1,4 @@
 # otusKotlin
-Homework
+My homework from course
+
+
