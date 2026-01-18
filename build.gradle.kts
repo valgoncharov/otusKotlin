@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.21"
     application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.otus.kotlinqa"
@@ -15,26 +16,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("MainKt")
-    applicationDefaultJvmArgs = listOf(
-        "-Xms256m",
-        "-Xmx1g",
-        "-XX:MaxMetaspaceSize=256m",
-        "-XX:+UseG1GC",
-        "-XX:+HeapDumpOnOutOfMemoryError",
-        "-Dfile.encoding=UTF-8"
-    )
-}
-
-tasks.withType<JavaExec> {
-    jvmArgs = listOf(
-        "-Xms256m",      // Initial heap size
-        "-Xmx1g",      // Maximum heap size
-        "-XX:MaxMetaspaceSize=256m",
-        "-XX:+UseG1GC", // Use G1 garbage collector
-        "-XX:+HeapDumpOnOutOfMemoryError",
-        "-XX:HeapDumpPath=./heap-dump.hprof"
-    )
+    mainClass.set("homework.MainKt")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -43,17 +25,15 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
-tasks.named<Jar>("jar") {
-    archiveBaseName.set("time-app") // или оставьте как есть — не обязательно
-    manifest {
-        attributes["Main-Class"] = "MainKt" // ← важно!
-    }
-    // Включаем зависимости (на всякий случай, хотя у вас их почти нет)
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    configurations.named("runtimeClasspath").get().forEach { dep ->
-        from(zipTree(dep))
-    }
-}
+
+//tasks.jar {
+//    manifest {
+//        attributes["Main-Class"] = "MainKt"
+//    }
+//    // Опционально: для копирования зависимостей в jar
+//    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//}
 
 java {
     toolchain {
