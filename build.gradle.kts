@@ -12,6 +12,19 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+
+    // Для работы с HTTP запросами
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // Для работы с JSON
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // Для работы с MongoDB
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.11.0")
+    implementation("org.mongodb:mongodb-driver-sync:4.11.0")
+
+    // Для логирования
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
 
 application {
