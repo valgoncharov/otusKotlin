@@ -27,7 +27,7 @@ class TaskApiClientMockWebServerTest {
     }
 
     @Test
-    fun `GET returns task list`() {
+    fun testGetReturnsTaskList () {
         server.enqueue(
             MockResponse()
                 .setResponseCode(200)
@@ -45,7 +45,7 @@ class TaskApiClientMockWebServerTest {
     }
 
     @Test
-    fun `POST creates task`() {
+    fun testPostCreatesTask () {
         server.enqueue(
             MockResponse()
                 .setResponseCode(201)
@@ -64,7 +64,7 @@ class TaskApiClientMockWebServerTest {
     }
 
     @Test
-    fun `DELETE removes task`() {
+    fun testDeleteRemovesTask () {
         server.enqueue(MockResponse().setResponseCode(204))
 
         val result = apiClient.deleteTask(9)
