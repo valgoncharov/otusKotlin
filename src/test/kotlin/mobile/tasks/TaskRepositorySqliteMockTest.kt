@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 class TaskRepositorySqliteMockTest {
 
     @Test
-    fun `CRUD with sqlite mock storage`() {
+    fun testCrudWithSqLiteMockStorage () {
         val storage = MockSqliteTaskStorage(
             initialTasks = listOf(
                 TaskItem(id = 1, title = "first", done = false)
@@ -38,7 +38,7 @@ class TaskRepositorySqliteMockTest {
     }
 
     @Test
-    fun `repository delegates to sqlite mock object`() {
+    fun testRepositoryDelegatesToSqLiteMockObject () {
         val storage = mockk<TaskStorage>()
         val repository = TaskRepository(storage)
         val task = TaskItem(id = 7, title = "mocked")
