@@ -3,6 +3,16 @@ plugins {
     application
 }
 
+sourceSets {
+    main {
+        kotlin {
+            exclude("homework_3_new.kt")
+            exclude("homeworkDSL/dsl_dz.kt")
+            exclude("homeworkDSL/homework_3_pro.kt")
+        }
+    }
+}
+
 group = "com.otus.kotlinqa"
 version = "1.0-SNAPSHOT"
 
@@ -25,6 +35,12 @@ dependencies {
 
     // Для логирования
     implementation("org.slf4j:slf4j-simple:2.0.9")
+
+    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
+    testImplementation("io.mockk:mockk:1.13.13")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+    testImplementation("io.qameta.allure:allure-junit5:2.29.0")
 }
 
 application {
@@ -60,4 +76,9 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    systemProperty("allure.results.directory", "$projectDir/reports/allure-results")
 }
